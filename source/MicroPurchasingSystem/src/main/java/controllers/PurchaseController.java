@@ -6,6 +6,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,12 @@ import utils.ObjectNotFoundError;
  * 
  */
 @Controller
-//@RequestMapping("/purchases/**")
 public class PurchaseController {
+	private final CounterService counterSerivce;
+	
+	public PurchaseController(CounterService counterSerivce) {
+		this.counterSerivce = counterSerivce;
+	}
 
 	/**
 	 * This method provides an entry point to get a single
@@ -50,10 +55,13 @@ public class PurchaseController {
 		FullPurchase purchase = null;
 		try {
 			purchase = PurchaseActions.getPurchase(id);
+			this.counterSerivce.increment("counter.calls.get_purchase");
+			this.counterSerivce.increment("counter.calls.get_purchase." + id);
 		} catch (DatabaseError e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ObjectNotFoundError e) {
+			this.counterSerivce.increment("counter.errors.get_purchase");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

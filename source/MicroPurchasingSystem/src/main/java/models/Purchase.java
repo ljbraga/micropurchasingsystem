@@ -123,6 +123,6 @@ public class Purchase extends MetaModel {
 	 * @return true if it is still valid
 	 */
 	public boolean isValid() {
-		return this.expires >= System.currentTimeMillis();
+		return this.expires >= System.currentTimeMillis() && !this.isDeleted();
 	}
 }

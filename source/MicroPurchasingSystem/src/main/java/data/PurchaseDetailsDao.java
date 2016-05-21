@@ -7,6 +7,8 @@ import java.util.List;
 
 import models.PurchaseDetails;
 import utils.DatabaseError;
+import utils.DuplicateObjectKeyError;
+import utils.ObjectNotFoundError;
 
 /**
  * This interface provides the methods that are needed to manipulate
@@ -43,21 +45,21 @@ public interface PurchaseDetailsDao extends MetaDao {
 	 * @return the identifier that was assigned to the given purchase details object
 	 * @throws DatabaseError
 	 */
-	public long createPurchaseDetails(PurchaseDetails details) throws DatabaseError;
+	public long createPurchaseDetails(PurchaseDetails details) throws DatabaseError, DuplicateObjectKeyError;
 	
 	/**
-	 * Modifies an existing object in the database represented by the given Purcahse details
+	 * Modifies an existing object in the database represented by the given Purchase details
 	 * object
 	 * @param details
 	 * @throws DatabaseError
 	 */
-	public void updatePurchaseDetails(PurchaseDetails details) throws DatabaseError;
+	public void updatePurchaseDetails(PurchaseDetails details) throws DatabaseError, ObjectNotFoundError;
 	
 	
 	/**
-	 * Deletes an existing purhcase details object from the database;
+	 * Deletes an existing purchase details object from the database;
 	 * @param details
 	 * @throws DatabaseError
 	 */
-	public void deletePurchaseDetails(PurchaseDetails details) throws DatabaseError;
+	public void deletePurchaseDetails(PurchaseDetails details) throws DatabaseError, ObjectNotFoundError;
 }

@@ -14,6 +14,7 @@ import data.PurchaseDetailsDao;
 import models.Purchase;
 import models.PurchaseDetails;
 import utils.DatabaseError;
+import utils.DuplicateObjectKeyError;
 import utils.InvalidDaoImplementation;
 import utils.ObjectNotFoundError;
 
@@ -62,9 +63,11 @@ public class PurchaseActions {
 	 * @param value the value of the purchase
 	 * @return
 	 * @throws DatabaseError
+	 * @throws DuplicateObjectKeyError 
 	 */
 	public static FullPurchase createPurchase(String productType, long expires, 
-		String description, int quantity, double value) throws DatabaseError {
+		String description, int quantity, double value
+	) throws DatabaseError, DuplicateObjectKeyError {
 		PurchaseDetails details = PurchaseActions.createPurchaseDetails(
 			description,
 			quantity, 
@@ -88,10 +91,11 @@ public class PurchaseActions {
 	 * @param value
 	 * @return
 	 * @throws DatabaseError
+	 * @throws DuplicateObjectKeyError 
 	 */
 	private static PurchaseDetails createPurchaseDetails(String description,
 		int quantity, double value
-	) throws DatabaseError {
+	) throws DatabaseError, DuplicateObjectKeyError {
 		PurchaseDetails details = new PurchaseDetails(
 			description,
 			quantity,

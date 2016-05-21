@@ -3,79 +3,89 @@
  */
 package data;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 
 import models.Purchase;
 import utils.DatabaseError;
+import utils.DuplicateObjectKeyError;
+import utils.ObjectNotFoundError;
 
 /**
  * This class provides an "in-memory" store for Purchase objects
  * @author developer
  *
  */
+@Component
 public class PurchaseDaoMemory extends InMemoryStore<Purchase> implements PurchaseDao{
 	/* (non-Javadoc)
 	 * @see data.PurchaseDao#getPurchaseById(long)
 	 */
 	@Override
+	@Cacheable("purchases")
 	public Purchase getPurchaseById(long id) throws DatabaseError {
-		// for the sake of simplicity we will use the current
-		// time in millis
-		return null;
+		return this.getObjectById(id);
 	}
 
 	/* (non-Javadoc)
 	 * @see data.PurchaseDao#getAllPurchases()
 	 */
 	@Override
+	@Cacheable("purchases")
 	public List<Purchase> getAllPurchases() throws DatabaseError {
-		ArrayList<Purchase> purchases = new ArrayList<Purchase>();
-		purchases.addAll(this.store.values());
-		this.simulateSLA();
-		return purchases;
+		return this.getAllObjects();
 	}
 
 	/* (non-Javadoc)
 	 * @see data.PurchaseDao#createPurchase(models.Purchase)
 	 */
 	@Override
-	public long createPurchase(Purchase purchase) throws DatabaseError {
-		long newId = this.generateObjectId();
-		purchase.setId(newId);
-		this.store.put(newId, purchase);
-		this.simulateSLA();
-		return newId;
+	@CachePut("purchases")
+	public long createPurchase(Purchase purchase)
+		throws DatabaseError, DuplicateObjectKeyError
+	{
+		// object is saved
+		if (purchase.isSaved()) {
+			return -1;
+		}
+		long newid = this.addObject(purchase);
+		purchase.setId(newid);
+		return newid;
 	}
 
 	/* (non-Javadoc)
 	 * @see data.PurchaseDao#updatePurchase(models.Purchase)
 	 */
 	@Override
-	public void updatePurchase(Purchase purchase) throws DatabaseError {
-		// TODO Auto-generated method stub
-
+	@CachePut("purchases")
+	public void updatePurchase(Purchase purchase)
+		throws DatabaseError, ObjectNotFoundError 
+	{
+		// object is not saved
+		if (!purchase.isSaved()) {
+			return ;
+		}
+		this.updateObject(purchase.getId(), purchase);
 	}
 
 	/* (non-Javadoc)
 	 * @see data.PurchaseDao#deletePurchase(models.Purchase)
 	 */
 	@Override
-	public void deletePurchase(Purchase purchase) throws DatabaseError {
-		if (!this.store.containsKey(purchase.getId()) {
-			
+	@CacheEvict("purchases")
+	public void deletePurchase(Purchase purchase) 
+		throws DatabaseError, ObjectNotFoundError 
+	{
+		// object is not saved or is deleted
+		if (!purchase.isSaved() || purchase.isDeleted()) {
+			return;
 		}
-		this.simulateSLA();
+		this.deleteObject(purchase.getId());
+		purchase.setDeleted(true);
+	}
 
-	}
-	
-	/**
-	 * Checks if there is an object with the given key
-	 * 
-	 * @param id
-	 * @return true is returned 
-	 */
-	public boolean existsObject(Long id) {
-		return this.store.containsKey(id);
-	}
 }

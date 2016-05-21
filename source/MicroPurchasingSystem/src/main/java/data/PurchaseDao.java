@@ -4,6 +4,8 @@ import java.util.List;
 
 import models.Purchase;
 import utils.DatabaseError;
+import utils.DuplicateObjectKeyError;
+import utils.ObjectNotFoundError;
 
 /**
  * This interface specifies what methods the DAO must provide
@@ -17,7 +19,7 @@ public interface PurchaseDao extends MetaDao {
 	 * Returns a single purchase that is identified with the given id
 	 * @param id the id of the purchase
 	 * @return a Purchase object with the representation of the Purchase or
-	 *  null if there is no purchase detaisl
+	 *  null if there is no purchase details
 	 * with the given id
 	 * @throws DatabaseError
 	 */
@@ -37,7 +39,7 @@ public interface PurchaseDao extends MetaDao {
 	 * @return the identifier that was assigned to the new purchase
 	 * @throws DatabaseError
 	 */
-	public long createPurchase(Purchase purchase) throws DatabaseError;
+	public long createPurchase(Purchase purchase) throws DatabaseError, DuplicateObjectKeyError;
 	
 	/**
 	 * Updates an existing purchase
@@ -45,13 +47,13 @@ public interface PurchaseDao extends MetaDao {
 	 * @param purchase
 	 * @throws DatabaseError
 	 */
-	public void updatePurchase(Purchase purchase) throws DatabaseError;
+	public void updatePurchase(Purchase purchase) throws DatabaseError, ObjectNotFoundError;
 	
 	/**
 	 * Deletes an existing purchase
 	 * @param purchase
 	 * @throws DatabaseError
 	 */
-	public void deletePurchase(Purchase purchase) throws DatabaseError;
+	public void deletePurchase(Purchase purchase) throws DatabaseError, ObjectNotFoundError;
 
 }
