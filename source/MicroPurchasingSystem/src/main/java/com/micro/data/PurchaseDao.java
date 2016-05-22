@@ -2,10 +2,10 @@ package com.micro.data;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.stereotype.Component;
 
 import com.micro.models.Purchase;
 import com.micro.utils.DatabaseError;
@@ -18,7 +18,7 @@ import com.micro.utils.ObjectNotFoundError;
  * @author developer
  *
  */
-@Component
+//@Component
 public interface PurchaseDao extends MetaDao {
 
     /**
@@ -30,7 +30,7 @@ public interface PurchaseDao extends MetaDao {
      *         if there is no purchase details with the given id
      * @throws DatabaseError
      */
-    @Cacheable("purchases")
+    //@Cacheable("purchases")
     public Purchase getPurchaseById(long id) throws DatabaseError;
 
     /**
@@ -39,7 +39,7 @@ public interface PurchaseDao extends MetaDao {
      * @return the list of purchases
      * @throws DatabaseError
      */
-    @Cacheable("purchases")
+    //@Cacheable("purchases")
     public List<Purchase> getAllPurchases() throws DatabaseError;
 
     /**
@@ -49,7 +49,7 @@ public interface PurchaseDao extends MetaDao {
      * @return the identifier that was assigned to the new purchase
      * @throws DatabaseError
      */
-    @CachePut("purchases")
+    //@CachePut("purchases")
     public long createPurchase(Purchase purchase) throws DatabaseError, DuplicateObjectKeyError;
 
     /**
@@ -58,7 +58,7 @@ public interface PurchaseDao extends MetaDao {
      * @param purchase
      * @throws DatabaseError
      */
-    @CachePut("purchases")
+    //@CachePut("purchases")
     public void updatePurchase(Purchase purchase) throws DatabaseError, ObjectNotFoundError;
 
     /**
@@ -67,7 +67,7 @@ public interface PurchaseDao extends MetaDao {
      * @param purchase
      * @throws DatabaseError
      */
-    @CacheEvict("purchases")
+    //@CacheEvict("purchases")
     public void deletePurchase(Purchase purchase) throws DatabaseError, ObjectNotFoundError;
 
 }

@@ -5,6 +5,7 @@ package com.micro.mocking;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
@@ -37,7 +38,7 @@ public abstract class InMemoryStore<T> {
     /**
      * this will be used to simulate the access to the database
      */
-    private int waitTime = 5000;
+    private int waitTime = 2 * 1000;
 
     /**
      * generates a new identifier
@@ -151,5 +152,13 @@ public abstract class InMemoryStore<T> {
         }
         this.store.remove(id);
         this.simulateSLA();
+    }
+    
+    /**
+     * Returns the hashmap behind this store. USE WITH CARE 
+     * @return
+     */
+    public Map<Long, T> getStore() {
+        return this.store;
     }
 }

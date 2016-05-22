@@ -29,6 +29,23 @@ public class SimpleErrorController implements ErrorController {
      */
     private final ErrorAttributes errorAttributes;
 
+    public SimpleErrorController() {
+        this.errorAttributes = new ErrorAttributes() {
+            
+            @Override
+            public Map<String, Object> getErrorAttributes(RequestAttributes arg0, boolean arg1) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+            
+            @Override
+            public Throwable getError(RequestAttributes arg0) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+        };
+    }
+    
     /**
      * creates a new instace of the controller
      * 

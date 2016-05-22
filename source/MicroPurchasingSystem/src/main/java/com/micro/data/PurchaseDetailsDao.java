@@ -5,10 +5,10 @@ package com.micro.data;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+//import org.springframework.cache.annotation.CacheEvict;
+//import org.springframework.cache.annotation.CachePut;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.stereotype.Component;
 
 import com.micro.models.PurchaseDetails;
 import com.micro.utils.DatabaseError;
@@ -22,7 +22,7 @@ import com.micro.utils.ObjectNotFoundError;
  * @author developer
  *
  */
-@Component
+//@Component
 public interface PurchaseDetailsDao extends MetaDao {
     /**
      * Gets a purhcasedetails object with the given id
@@ -31,7 +31,7 @@ public interface PurchaseDetailsDao extends MetaDao {
      * @return The purchase details. null if there is no purchase detaisl with
      *         the given id
      */
-    @Cacheable("purchaseDetails")
+    //@Cacheable("purchaseDetails")
     public PurchaseDetails getPurhcaseDetailsById(long id) throws DatabaseError;
 
     /**
@@ -40,7 +40,7 @@ public interface PurchaseDetailsDao extends MetaDao {
      * @return the list of the existing purchase details
      * @throws DatabaseError
      */
-    @Cacheable("purchaseDetails")
+    //@Cacheable("purchaseDetails")
     public List<PurchaseDetails> getAllPurchaseDetails() throws DatabaseError;
 
     /**
@@ -49,7 +49,7 @@ public interface PurchaseDetailsDao extends MetaDao {
      * @return the list of the existing purchase details with the given ids
      * @throws DatabaseError
      */
-    @Cacheable("purchaseDetails")
+    //@Cacheable("purchaseDetails")
     public List<PurchaseDetails> findAllPurchaseDetailsById(List<Long> detailsIds);
 
     /**
@@ -60,7 +60,7 @@ public interface PurchaseDetailsDao extends MetaDao {
      *         object
      * @throws DatabaseError
      */
-    @CachePut("purchaseDetails")
+    //@CachePut("purchaseDetails")
     public long createPurchaseDetails(PurchaseDetails details) throws DatabaseError, DuplicateObjectKeyError;
 
     /**
@@ -70,7 +70,7 @@ public interface PurchaseDetailsDao extends MetaDao {
      * @param details
      * @throws DatabaseError
      */
-    @CachePut("purchaseDetails")
+    //@CachePut("purchaseDetails")
     public void updatePurchaseDetails(PurchaseDetails details) throws DatabaseError, ObjectNotFoundError;
 
     /**
@@ -79,6 +79,6 @@ public interface PurchaseDetailsDao extends MetaDao {
      * @param details
      * @throws DatabaseError
      */
-    @CacheEvict("purchaseDetails")
+    //@CacheEvict("purchaseDetails")
     public void deletePurchaseDetails(PurchaseDetails details) throws DatabaseError, ObjectNotFoundError;
 }

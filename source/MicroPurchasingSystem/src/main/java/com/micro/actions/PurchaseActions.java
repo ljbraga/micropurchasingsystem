@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import com.micro.data.DAOFactory;
 import com.micro.data.PurchaseDao;
 import com.micro.data.PurchaseDetailsDao;
@@ -19,7 +20,7 @@ import com.micro.utils.InvalidDaoImplementation;
 import com.micro.utils.ObjectNotFoundError;
 
 /**
- * This classes encaplusates the calls to the database to make it easier for the
+ * This classes encapsulates the calls to the database to make it easier for the
  * services above to use
  * 
  * @author developer
@@ -29,11 +30,13 @@ public class PurchaseActions {
     /**
      * is used to get the purchases from the store
      */
+    @Autowired
     private static PurchaseDao purchaseDao = null;
 
     /**
      * is used to get the purchase details from the store
      */
+    @Autowired
     private static PurchaseDetailsDao purchaseDetailsDao = null;
 
     /**
@@ -207,5 +210,21 @@ public class PurchaseActions {
         }
 
         return validPurchases;
+    }
+
+    /**
+     * use with care. to be used in testing/development only
+     * @return the purchaseDao
+     */
+    public static PurchaseDao getPurchaseDao() {
+        return purchaseDao;
+    }
+
+    /**
+     * use with care. to be used in testing/development only      
+     * @return the purchaseDetailsDao
+     */
+    public static PurchaseDetailsDao getPurchaseDetailsDao() {
+        return purchaseDetailsDao;
     }
 }
