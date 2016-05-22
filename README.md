@@ -1,2 +1,2 @@
 # micropurchasingsystem
-My First Spring Boot Project
+A simple micro purchasing system
